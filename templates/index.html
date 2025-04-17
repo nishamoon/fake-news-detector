@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fake News Detector</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style id="theme-style">
+        body {
+            background-color: #f8f9fa;
+            color: #212529;
+        }
+        .container {
+            max-width: 700px;
+            margin-top: 60px;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .form-control {
+            background-color: #fff;
+            color: #212529;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>🕵️‍♂️ Fake News Detector</h2>
+            <div>
+                <label class="form-check-label me-2" for="modeToggle">Dark Mode</label>
+                <input class="form-check-input" type="checkbox" id="modeToggle" onclick="toggleMode()">
+            </div>
+        </div>
+        <form action="/predict" method="POST">
+            <div class="mb-3">
+                <label for="news_text" class="form-label">Enter News Article:</label>
+                <div class="mb-3">
+                    <label for="sampleSelect" class="form-label">Choose a Sample:</label>
+                    <select class="form-select" id="sampleSelect" onchange="insertSample()">
+                        <option selected disabled>-- Select Sample News --</option>
+                        <option value="NASA confirms new moon mission in 2025.">NASA confirms new moon mission in 2025.</option>
+                        <option value="COVID-19 vaccine causes superpowers, says viral post.">COVID-19 vaccine causes superpowers, says viral post.</option>
+                        <option value="Government announces free education for all students.">Government announces free education for all students.</option>
+                        <option value="Aliens discovered near Saturn, claims TikTok user.">Aliens discovered near Saturn, claims TikTok user.</option>
+                        <option value="India launches world’s fastest bullet train.">India launches world’s fastest bullet train.</option>
+                    </select>
+                </div>
+                
+                <textarea class="form-control" name="news_text" id="news_text" rows="6" maxlength="2000" placeholder="Paste news content here..." required></textarea>
+
+            </div>
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-success">Check</button>
+                <button type="reset" class="btn btn-secondary">Clear</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function toggleMode() {
+            const style = document.getElementById('theme-style');
+            const dark = `
+                body { background-color: #121212; color: #f1f1f1; }
+                .container { background-color: #1e1e1e; box-shadow: 0 0 10px rgba(255,255,255,0.05); }
+                .form-control { background-color: #2a2a2a; color: #fff; border: none; }
+                .form-control::placeholder { color: #aaa; }
+            `;
+            const light = `
+                body { background-color: #f8f9fa; color: #212529; }
+                .container { background-color: #fff; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+                .form-control { background-color: #fff; color: #212529; }
+            `;
+            style.innerHTML = document.getElementById('modeToggle').checked ? dark : light;
+        }
+        function insertSample() {
+        const sample = document.getElementById("sampleSelect").value;
+        document.getElementById("news_text").value = sample;
+    }
+    </script>
+</body>
+</html>
